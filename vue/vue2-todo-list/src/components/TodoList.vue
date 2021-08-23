@@ -1,8 +1,8 @@
 <template>
   <div>
-    <ul>
+    <transition-group name="list" tag="ul">
       <li class="shadow"
-        v-for="(itemObj, index) in propsdata"
+        v-for="(itemObj, index) in todoItems"
         v-bind:key="index">
         <i 
           class="fas fa-check check__button"
@@ -15,20 +15,36 @@
             <i class="fas fa-trash-alt"></i>
           </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
-  props: ['propsdata'],
+  // props: ['propsdata'],
+  computed: {
+    // todoItems() {
+    //   return this.$store.getters.getTodoItems;
+    // }
+    ...mapGetters({
+      todoItems: 'getTodoItems'
+    })
+  },
   methods: {
-    removeItem(index) {
-      this.$emit('removeItem', index);
-    },
-    toggleItem(index){
-      this.$emit('toggleItem', index);
-    }
+    ...mapMutations({
+      removeItem: 'removeTodoItem',
+      toggleItem: 'toggleCompletedItem'
+    }),
+    // removeItem(index) {
+    //   // this.$emit('removeItem', index);
+    //   this.$store.commit('removeTodoItem', index);
+    // },
+    // toggleItem(index){
+    //   // this.$emit('toggleItem', index);
+    //   this.$store.commit('toggleCompletedItem', index);
+    // }
   }
 }
 </script>
@@ -63,6 +79,18 @@ li {
 
 .completed {
   text-decoration: line-through;
-  color: #b3adad;
+  color:
+   #b3adad;
 }
-</style>
+
+/* 리스트아이템 트랜지션 효과 */
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+ </style>

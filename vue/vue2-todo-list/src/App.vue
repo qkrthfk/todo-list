@@ -1,14 +1,17 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on:addNewItem="addNewTodoItem"></TodoInput>
+    <!-- <TodoInput v-on:addNewItem="addNewTodoItem"></TodoInput>
     <TodoList 
       v-bind:propsdata="todoItems"
       v-on:removeItem="removeTodoItem"
       v-on:toggleItem="toggleCompletedItem">
     </TodoList>
     <TodoFooter
-      v-on:clearItem="clearAllTodoItem"></TodoFooter>
+      v-on:clearItem="clearAllTodoItem"></TodoFooter> -->
+    <TodoInput></TodoInput>
+    <TodoList></TodoList>
+    <TodoFooter></TodoFooter>
   </div>
 </template>
 
@@ -21,6 +24,8 @@ import TodoFooter from './components/TodoFooter';
 export default {
   name: 'App',
   components: {
+    // ES6의 특징 - 객체의 속성명과 값이 같을 경우 생략 가능  
+    // TodoHeader : TodoHeader,
     TodoHeader,
     TodoInput,
     TodoList,
@@ -32,18 +37,17 @@ export default {
     }
   },
   created() {
-    if(localStorage.length < 0) return;
-
-    for(let i = 0; i < localStorage.length; i++) {
-      if(localStorage.key(i) !== 'loglevel:webpack-dev-server') {
-        const itemObj = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        this.todoItems.push(itemObj);
-      }
-    }
+    // store.js로 로직 이동
   },
   methods: {
+    // store.js mutations로 이동
+    
+    // ES5
+    // addNewTodoItem : function() {}
+    // ES6 - Enhanced Literal Object 특징으로 function 생략이 가능
+    /*
     addNewTodoItem(newTodoItem){
-      let obj = { completed: false, item: newTodoItem };
+      const obj = { completed: false, item: newTodoItem };
       localStorage.setItem(newTodoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
     },
@@ -61,6 +65,7 @@ export default {
       localStorage.clear();
       this.todoItems = [];
     }
+    */
   }
 }
 </script>

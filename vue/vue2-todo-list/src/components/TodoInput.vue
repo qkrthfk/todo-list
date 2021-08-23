@@ -4,20 +4,40 @@
     <span class="button__container" v-on:click="addTodoItem">
       <i class="fas fa-plus add__button"></i>
     </span>
+
+    <!-- Modal -->
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">
+        경고!
+        <i class="fas fa-times close_modal_button" @click="showModal = false"></i>
+      </h3>
+      <div slot="body">값을 입력해주세요</div>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue';
+
 export default {
+  components: {
+    Modal
+  },
   data() {
     return {
       newTodoItem: '',
+      showModal: false,
     }
   },
   methods: {
     addTodoItem(){
-      if(this.newTodoItem === '') return;
-      this.$emit('addNewItem', this.newTodoItem);
+      if(this.newTodoItem === '') {
+        this.showModal = !this.showModal;
+        return;
+      }
+
+      // this.$emit('addNewItem', this.newTodoItem);
+      this.$store.commit('addNewTodoItem', this.newTodoItem);
       this.clearInput();
     },
     clearInput() {
@@ -55,5 +75,9 @@ export default {
   .add__button {
     color: #ffffff;
     vertical-align: middle;
+  }
+
+  .close_modal_button {
+    color: #42b983;
   }
 </style>
