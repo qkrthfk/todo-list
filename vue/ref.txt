@@ -47,3 +47,60 @@ Action -> Dispatcher -> Model -> View
         nation: 'korea',
         ...a
       }
+
+  6. store 속성 모듈화 방법(1)★
+  - store.js
+    ex.
+      import * as getters from './getters';
+      import * as mutations from './mutations';
+
+      export const store = new Vuex.Store({
+        state: {
+          todoItems: storage.fetch(),
+        },
+        getters: getters, // getters로 축약 가능
+        mutations: mutations
+      });
+
+  - store\getter.js
+    ex. 
+      export const A = (state) => {
+        return state.todoItems;
+      }
+
+  - store\mutations.js
+    ex. 
+      const B = (state, todoItem) => {
+        ...
+      }
+
+      const C = (state, todoItem) => {
+        ...
+      }
+      
+  
+      export { B, C };
+
+  7. store 속성 모듈화 방법(2)★
+    store\modules 폴더를 생성해서 todoApp.js 라는 파일 생성
+    (store를 성격에 따라 모듈화 하기 위해 사용하는 방법)
+
+    ex. store.js
+      import todoApp from './modules/todoApp'
+
+      export const store = new Vuex.Stroe({
+        modules: {
+          todoApp
+        }
+      });
+
+    ex. modeuls.js
+      const state = {}
+      const getter = {}
+      const mutations = {}
+
+      export default {
+        state,
+        getters,
+        mutations
+      }
